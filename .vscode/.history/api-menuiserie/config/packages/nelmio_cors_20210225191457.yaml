@@ -1,0 +1,12 @@
+nelmio_cors:
+    defaults:
+        origin_regex: true
+        allow_origin: ['^%https://localhost:8001%$']
+        allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
+        max_age: 3600
+    paths:
+        '^/':
+            allow_origin: ['*']
+            allow_headers: ['*']
+            allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
+            max_age: 3600
