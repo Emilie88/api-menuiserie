@@ -33,7 +33,7 @@ class UserController extends AbstractController
         
     }
          /**
-         * @Route("/api/register-user", name="api_user_register",methods={"POST","GET"})
+         * @Route("/api/user", name="api_user_create",methods={"POST","GET"})
          * @return JsonResponse
          */
         public function register(Request $request, UserPasswordEncoderInterface $encoder,SerializerInterface $serializer,EntityManagerInterface $em)

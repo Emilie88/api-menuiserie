@@ -33,7 +33,7 @@ class UserController extends AbstractController
         
     }
          /**
-         * @Route("/api/register-user", name="api_user_register",methods={"POST","GET"})
+         * @Route("/api/user", name="api_user_create",methods={"POST"})
          * @return JsonResponse
          */
         public function register(Request $request, UserPasswordEncoderInterface $encoder,SerializerInterface $serializer,EntityManagerInterface $em)
@@ -56,8 +56,8 @@ class UserController extends AbstractController
         
     }
 
-        return $this->render("home.html.twig");
-        // return new JsonResponse([[],JsonResponse::HTTP_NO_CONTENT]);
+        //  return $this->render("home.html.twig");
+        return new JsonResponse([[],JsonResponse::HTTP_NO_CONTENT]);
        
 
     }

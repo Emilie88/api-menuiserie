@@ -31,7 +31,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string")
-     *  
+     *  @Groups("user:read")
      */
     private $role;
 

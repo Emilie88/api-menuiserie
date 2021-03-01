@@ -33,13 +33,13 @@ class UserController extends AbstractController
         
     }
          /**
-         * @Route("/api/register-user", name="api_user_register",methods={"POST","GET"})
+         * @Route("/api/user", name="api_user_create",methods={"POST"})
          * @return JsonResponse
          */
         public function register(Request $request, UserPasswordEncoderInterface $encoder,SerializerInterface $serializer,EntityManagerInterface $em)
     {
         
-        if($request->isMethod("POST")){
+        // if($request->isMethod("POST")){
         $password=$request->request->get('password');
         $email=$request->request->get('email');
         $firstName=$request->request->get('firstName');
@@ -50,13 +50,13 @@ class UserController extends AbstractController
              ->setRoles("ROLE_USER")
              ->setFirstname($firstName)
              ->setLastname($lastName);
-      
-        $this->getDoctrine()->getManager()->persist($user);
+        $userPost=$serializer->deserialize($user,Devis::class,'json');
+        $this->getDoctrine()->getManager()->persist($userPost);
         $this->getDoctrine()->getManager()->flush();
-        
-    }
+        return $this->json($userPost,201,[],['groups'=>'user:read']);
+    // }
 
-        return $this->render("home.html.twig");
+        //  return $this->render("home.html.twig");
         // return new JsonResponse([[],JsonResponse::HTTP_NO_CONTENT]);
        
 

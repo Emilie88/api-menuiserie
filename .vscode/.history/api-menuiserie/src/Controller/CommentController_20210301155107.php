@@ -36,7 +36,7 @@ class CommentController extends AbstractController
        try{
         $jsonRecu = $request->getContent();
         $comment = $serializer->deserialize($jsonRecu,Comment::class,'json');
-        $comment->setCreatedAt(new \DateTime());
+        // $comment->setDate(new \DateTime());
         $errors = $validator->validate( $comment);
         if(count($errors) > 0){
             return $this->json($errors,400);
