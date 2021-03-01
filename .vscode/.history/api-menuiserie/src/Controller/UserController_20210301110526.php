@@ -25,16 +25,15 @@ class UserController extends AbstractController
      *@Route("/users", name="api_users",methods={"GET"})
      * @return JsonResponse
       */
-        public function getUsers(UserRepository $userRepository ,Request $request)
+    public function getUsers()
     {
-        $users = $userRepository->findAll();
-        $users = $request->getContent();
-        
+        $repository=$this->getDoctrine()->getRepository(User::class);
+        $users=$repository->findall();
         return new JsonResponse($users,JsonResponse::HTTP_OK);
     }
   
          /**
-         * @Route("/create", name="api_user_create",methods={"POST","GET"})
+         * @Route("/create", name="api_user_create",methods={"POST"})
          * @return JsonResponse
          */
         public function register(Request $request, UserPasswordEncoderInterface $encoder)

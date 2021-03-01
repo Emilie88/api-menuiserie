@@ -29,7 +29,7 @@ class UserController extends AbstractController
     {
         $users = $userRepository->findAll();
         $users = $request->getContent();
-        
+        ;
         return new JsonResponse($users,JsonResponse::HTTP_OK);
     }
   

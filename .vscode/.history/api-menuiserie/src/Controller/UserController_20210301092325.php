@@ -15,26 +15,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-
-/**
- *Usercontroller.
-  *@Route("/api",name="api_")*/
 class UserController extends AbstractController
 {
-    /**
-     *@Route("/users", name="api_users",methods={"GET"})
-     * @return JsonResponse
-      */
-        public function getUsers(UserRepository $userRepository ,Request $request)
-    {
-        $users = $userRepository->findAll();
-        $users = $request->getContent();
-        
-        return new JsonResponse($users,JsonResponse::HTTP_OK);
-    }
+    
   
          /**
-         * @Route("/create", name="api_user_create",methods={"POST","GET"})
+         * @Route("/create", name="api_user_create",methods={"GET","POST"})
          * @return JsonResponse
          */
         public function register(Request $request, UserPasswordEncoderInterface $encoder)

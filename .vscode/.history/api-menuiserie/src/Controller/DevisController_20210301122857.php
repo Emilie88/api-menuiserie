@@ -39,25 +39,38 @@ class DevisController extends AbstractController
      */
      public function add(Request $request,SerializerInterface $serializer,EntityManagerInterface $em)
     {
-        try{
-
-      
         $jsonRecu = $request->getContent();
         $devisOne=$serializer->deserialize($jsonRecu,Devis::class,'json');
         $em->persist($devisOne);
         $em->flush();
-      
-        return $this->json($devisOne,201,[],['groups'=>'devis:read']);
-        }catch(NotEncodableValueException $e){
-            return $this->json([
-                'status'=> 400,
-                'message'=> $e->getMessage()
-            ],400);
+        dd($devisOne);
+        // if($request->isMethod("POST")){
+        // $name=$request->request->get('name');
+        // $phone=$request->request->get('phone');
+        // $mail=$request->request->get('mail');
+        // $address=$request->request->get('address');
+        // $city=$request->request->get('city');
+        // $zipcode=$request->request->get('zipcode');
+        // $subject=$request->request->get('subject');
+        // $message=$request->request->get('message');
+        // $devis = new Devis();
+        // $devis->setName($name)
+        //      ->setPhone($phone)
+        //      ->setMail($mail)
+        //      ->setAddress($address)
+        //      ->setCity($city)
+        //      ->setZipcode($zipcode)
+        //      ->setSubject($subject)
+        //      ->setMessage($message);
+        // $this->getDoctrine()->getManager()->persist($devis);
+        // $this->getDoctrine()->getManager()->flush();
+       
+    // }
+  
 
-        }
-        
-
-
+    // return $this->render("devis.html.twig");
+        // return new JsonResponse([null,JsonResponse::HTTP_NO_CONTENT]);
+       
 
     }
     

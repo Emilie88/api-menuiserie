@@ -1,0 +1,19 @@
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+    {% block body %}
+    <form action="/contact" method="post">
+        <input type="text" name="name" placeholder="Name" />
+        <input type="email" name="mail" placeholder="Mail" />
+        <input type="text" name="subject" placeholder="subject" />
+        <input type="text" name="message" placeholder="message" />
+
+        <button type="submit">Submit</button>
+    </form>
+    {% endblock %}
+    {% block javascripts %}{% endblock %}
+</body>
