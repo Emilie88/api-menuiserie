@@ -1,0 +1,16 @@
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+    {% block body %}
+    <form action="/api/login" method="post">
+        <input type="email" name="email" placeholder="Mail" />
+        <input type="password" name="password" placeholder="Password" />
+        <button type="submit">Submit</button>
+    </form>
+    {% endblock %}
+    {% block javascripts %}{% endblock %}
+</body>

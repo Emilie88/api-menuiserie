@@ -1,0 +1,4 @@
+lexik_jwt_authentication:
+    secret_key: '%config/jwt/private.pem%'
+    public_key: '%config/jwt/public.pem%'
+    pass_phrase: '%env(JWT_PASSPHRASE)%'
