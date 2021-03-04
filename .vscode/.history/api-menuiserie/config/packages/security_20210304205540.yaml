@@ -36,7 +36,7 @@ security:
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
-            logout:
+        logout:
                 path:   app_logout            
         main:
             lazy: true

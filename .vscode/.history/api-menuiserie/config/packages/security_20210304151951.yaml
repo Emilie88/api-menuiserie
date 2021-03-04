@@ -36,8 +36,6 @@ security:
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
-            logout:
-                path:   app_logout            
         main:
             lazy: true
             # provider: app_user_provider
@@ -55,12 +53,13 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/register-user, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/comments,       roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/contacts,       roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/add-contact,       roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/devis,       roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/add-devis,       roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/comment,       roles: IS_AUTHENTICATED_FULLY }
+
     #     - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

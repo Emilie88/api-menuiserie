@@ -37,16 +37,15 @@ class CommentRepository extends ServiceEntityRepository
     
 
    
-    // public function findOneByOwner($commentsList): ?Comment
-    // {
-    //     return $this->createQueryBuilder('c')
-    //      ->leftJoin('c.commentsList', 'us')
-    //      ->addSelect('fc')
-    //         ->andWhere('c.commentsList = :commentsList')
-    //         ->setParameter('commentsList', $commentsList)
-    //         ->getQuery()
-    //         ->getOneOrNullResult()
-    //     ;
-    // }
+    public function findOneByOwner($commentsList): ?Comment
+    {
+        return $this->createQueryBuilder('c')
+         ->leftJoin('c.commentsList', 'us')
+            ->andWhere('c.commentsList = :commentsList')
+            ->setParameter('commentsList', $commentsList)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
     
 }

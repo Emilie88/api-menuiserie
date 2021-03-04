@@ -22,6 +22,16 @@ class User implements UserInterface
      * @Groups("user:read")
      */
     private $id;
+     /**
+     * @ORM\Column(type="string", length=255)
+     *   @Groups("user:read","user:write")
+     */
+    private $firstName;
+     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *   @Groups("user:read","user:write")
+     */
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -42,17 +52,9 @@ class User implements UserInterface
      */
     private $password;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *   @Groups("user:read","user:write")
-     */
-    private $firstName;
+   
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *   @Groups("user:read","user:write")
-     */
-    private $lastName;
+   
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="owner")
@@ -144,7 +146,6 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-        return null;
     }
 
     public function getFirstName(): ?string

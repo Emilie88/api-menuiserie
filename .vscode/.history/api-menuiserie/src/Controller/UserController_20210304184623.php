@@ -66,54 +66,54 @@ class UserController extends AbstractController
          * @Route("/api/login_check", name="api_user_login",methods={"POST","GET"})
          * @return JsonResponse
          */
-        // public function login(Request $request, UserPasswordEncoderInterface $encoder,SerializerInterface $serializer,EntityManagerInterface $em)
-        // {
-        //     $response =[
-        //         'status'=>'200 OK',
-        //         'error'=> false,
-        //         'erroMsg'=>'',
-        //         'user'=>null
-            // ];
+        public function login(Request $request, UserPasswordEncoderInterface $encoder,SerializerInterface $serializer,EntityManagerInterface $em)
+        {
+            $response =[
+                'status'=>'200 OK',
+                'error'=> false,
+                'erroMsg'=>'',
+                'user'=>null
+            ];
 
-            // if($request->isMethod("POST")){
-            //     $password=$request->request->get('password');
-            //     $email=$request->request->get('email');
-            //     //on cherche un user qui a le bon mail
-            //     $user= $this->getDoctrine()->getRepository(User::class)->findOneByEmail($email);
+            if($request->isMethod("POST")){
+                $password=$request->request->get('password');
+                $email=$request->request->get('email');
+                //on cherche un user qui a le bon mail
+                $user= $this->getDoctrine()->getRepository(User::class)->findOneByEmail($email);
                 //aucun user trouvé avec le bon mail
-                // if(!$user){
-                //     $response['error']= true;
-                //     $response['errorMsg'] = "Email non trouvé";
-                // }
+                if(!$user){
+                    $response['error']= true;
+                    $response['errorMsg'] = "Email non trouvé";
+                }
                 //un utilisateur a été trouvé mais les verifications ne sont pas finis
-                // else{
-                //     if(!$encoder->isPasswordValid($user,$password)){
-                //         $response['error']= true;
-                //         $response['errorMsg'] = "Mot de passe non valide";
-                //     }
-                //     else{
-                //         $response['error']= false;
-                //         $response['errorMsg'] ="" ;
-                //         $response['user']=[
-                //             'firstName'=>$user->getFirstName(),
-                //             'lastName'=>$user->getLastName(),
-                //             'email'=>$user->getEmail(),
-                //             'roles'=>$user->getRoles(),
-                //         ];
-                //     }
-                // }
+                else{
+                    if(!$encoder->isPasswordValid($user,$password)){
+                        $response['error']= true;
+                        $response['errorMsg'] = "Mot de passe non valide";
+                    }
+                    else{
+                        $response['error']= false;
+                        $response['errorMsg'] ="" ;
+                        $response['user']=[
+                            'firstName'=>$user->getFirstName(),
+                            'lastName'=>$user->getLastName(),
+                            'email'=>$user->getEmail(),
+                            'roles'=>$user->getRoles(),
+                        ];
+                    }
+                }
                
                 
-            // }
+            }
             //je suis en get
-            // else{
+            else{
                 // return new JsonResponse($response);
-            //     return $this->render("login.html.twig");
-            // }
+                return $this->render("login.html.twig");
+            }
             
-        //     return new JsonResponse($response['user']);
+            return new JsonResponse($response['user']);
         
-        // }
+        }
     
         
 }

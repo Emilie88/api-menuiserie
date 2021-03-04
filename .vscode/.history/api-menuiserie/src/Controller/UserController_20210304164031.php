@@ -63,7 +63,7 @@ class UserController extends AbstractController
     }
 
      /**
-         * @Route("/api/login_check", name="api_user_login",methods={"POST","GET"})
+         * @Route("/api/login", name="api_user_login",methods={"POST","GET"})
          * @return JsonResponse
          */
         // public function login(Request $request, UserPasswordEncoderInterface $encoder,SerializerInterface $serializer,EntityManagerInterface $em)
@@ -73,43 +73,43 @@ class UserController extends AbstractController
         //         'error'=> false,
         //         'erroMsg'=>'',
         //         'user'=>null
-            // ];
+        //     ];
 
-            // if($request->isMethod("POST")){
-            //     $password=$request->request->get('password');
-            //     $email=$request->request->get('email');
-            //     //on cherche un user qui a le bon mail
-            //     $user= $this->getDoctrine()->getRepository(User::class)->findOneByEmail($email);
-                //aucun user trouvé avec le bon mail
-                // if(!$user){
-                //     $response['error']= true;
-                //     $response['errorMsg'] = "Email non trouvé";
-                // }
-                //un utilisateur a été trouvé mais les verifications ne sont pas finis
-                // else{
-                //     if(!$encoder->isPasswordValid($user,$password)){
-                //         $response['error']= true;
-                //         $response['errorMsg'] = "Mot de passe non valide";
-                //     }
-                //     else{
-                //         $response['error']= false;
-                //         $response['errorMsg'] ="" ;
-                //         $response['user']=[
-                //             'firstName'=>$user->getFirstName(),
-                //             'lastName'=>$user->getLastName(),
-                //             'email'=>$user->getEmail(),
-                //             'roles'=>$user->getRoles(),
-                //         ];
-                //     }
-                // }
+        //     if($request->isMethod("POST")){
+        //         $password=$request->request->get('password');
+        //         $email=$request->request->get('email');
+        //         //on cherche un user qui a le bon mail
+        //         $user= $this->getDoctrine()->getRepository(User::class)->findOneByEmail($email);
+        //         //aucun user trouvé avec le bon mail
+        //         if(!$user){
+        //             $response['error']= true;
+        //             $response['errorMsg'] = "Email non trouvé";
+        //         }
+        //         //un utilisateur a été trouvé mais les verifications ne sont pas finis
+        //         else{
+        //             if(!$encoder->isPasswordValid($user,$password)){
+        //                 $response['error']= true;
+        //                 $response['errorMsg'] = "Mot de passe non valide";
+        //             }
+        //             else{
+        //                 $response['error']= false;
+        //                 $response['errorMsg'] ="" ;
+        //                 $response['user']=[
+        //                     'firstName'=>$user->getFirstName(),
+        //                     'lastName'=>$user->getLastName(),
+        //                     'email'=>$user->getEmail(),
+        //                     'roles'=>$user->getRoles(),
+        //                 ];
+        //             }
+        //         }
                
                 
-            // }
-            //je suis en get
-            // else{
-                // return new JsonResponse($response);
-            //     return $this->render("login.html.twig");
-            // }
+        //     }
+        //     //je suis en get
+        //     else{
+        //         // return new JsonResponse($response);
+        //         return $this->render("login.html.twig");
+        //     }
             
         //     return new JsonResponse($response['user']);
         
