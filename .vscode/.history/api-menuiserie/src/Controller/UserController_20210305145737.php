@@ -23,15 +23,15 @@ class UserController extends AbstractController
   /**
      * @Route("/api/users", name="api_devis_index",methods={"GET"})
      */
-    public function index(UserRepository $userRepository,SerializerInterface $serializer)
-    {
-        $users = $userRepository->findAll();
-        $json= $serializer->serialize($users,'json',['groups'=>'user:read']);
+    // public function index(UserRepository $userRepository,SerializerInterface $serializer)
+    // {
+    //     $users = $userRepository->findAll();
+    //     $json= $serializer->serialize($users,'json',['groups'=>'user:read']);
         
-        $response= new JsonResponse($json,200,[],true);
-        return $response;
+    //     $response= new JsonResponse($json,200,[],true);
+    //     return $response;
         
-    }
+    // }
          /**
          * @Route("/api/register-user", name="api_user_register",methods={"POST","GET"})
          * @return JsonResponse
