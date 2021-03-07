@@ -21,26 +21,19 @@ class Rdv
      */
     private $id;
 
-     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups("rdv:read")
-     */
-    private $motif;
-
     
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      * @Groups("rdv:read")
      */
     private $dateRdv;
 
-   
-
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="string", length=255)
+     * @Groups("rdv:read")
      */
-    private $heure_rdv;
+    private $motif;
 
     public function getId(): ?int
     {
@@ -79,18 +72,6 @@ class Rdv
     public function setMotif(?string $motif): self
     {
         $this->motif = $motif;
-
-        return $this;
-    }
-
-    public function getHeureRdv(): ?\DateTimeInterface
-    {
-        return $this->heure_rdv;
-    }
-
-    public function setHeureRdv(\DateTimeInterface $heure_rdv): self
-    {
-        $this->heure_rdv = $heure_rdv;
 
         return $this;
     }
