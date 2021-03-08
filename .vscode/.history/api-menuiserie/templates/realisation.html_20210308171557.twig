@@ -1,0 +1,17 @@
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+    {% block body %}
+    <form action="/realisation" method="post">
+        <input type="text" name="title" placeholder="Title" />
+        <input type="text" name="description" placeholder="Description" />
+        <input type="text" name="imageFile" placeholder="Image file" />
+        <button type="submit">Submit</button>
+    </form>
+    {% endblock %}
+    {% block javascripts %}{% endblock %}
+</body>
