@@ -40,24 +40,26 @@ class UserController extends AbstractController
     {
         
         if($request->isMethod("POST")){
-        $password=$request->request->get('password');
-        $email=$request->request->get('email');
-        $firstName=$request->request->get('firstName');
-        $lastName=$request->request->get('lastName');
+        $email=$request->get('email');
+        $password=$request->get('password');
+        $firstName=$request->get('firstName');
+        $lastName=$request->get('lastName');
         $user = new User();
-        $user->setPassword($encoder->encodePassword($user, $password))
-             ->setEmail($email)
+        var_dump( $password,$email, $firstName,$lastName);
+        $user ->setEmail($email)
+                ->setPassword($encoder->encodePassword($user, $password))
+            
              ->setRoles(['ROLE_USER'])
              ->setFirstname($firstName)
              ->setLastname($lastName);
       
-        $this->getDoctrine()->getManager()->persist($user);
-        $this->getDoctrine()->getManager()->flush();
+             $em->persist($user);
+             $em->flush();
         
     }
 
-        return $this->render("home.html.twig");
-        // return new JsonResponse([[],JsonResponse::HTTP_NO_CONTENT]);
+        // return $this->render("home.html.twig");
+        return new JsonResponse([[],JsonResponse::HTTP_NO_CONTENT]);
        
 
     }

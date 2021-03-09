@@ -54,11 +54,7 @@ class User implements UserInterface
      */
     private $lastName;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="owner")
-     *  @Groups("user:read")
-     */
-    private $commentsList;
+    
 
     public function __construct()
     {
@@ -170,33 +166,8 @@ class User implements UserInterface
 
         return $this;
     }
-/**
-     * @return Collection|Comment[]
-     */
-    public function getCommentsList(): Collection
-    {
-        return $this->commentsList;
-    }
 
-    public function addCommentsList(Comment $commentsList): self
-    {
-        if (!$this->commentsList->contains($commentsList)) {
-            $this->commentsList[] = $commentsList;
-            $commentsList->setOwner($this);
-        }
 
-        return $this;
-    }
 
-    public function removeCommentsList(Comment $commentsList): self
-    {
-        if ($this->commentsList->removeElement($commentsList)) {
-            // set the owning side to null (unless already changed)
-            if ($commentsList->getOwner() === $this) {
-                $commentsList->setOwner(null);
-            }
-        }
-
-        return $this;
-    }
+     
 }
