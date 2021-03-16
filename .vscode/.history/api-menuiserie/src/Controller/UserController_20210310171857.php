@@ -38,21 +38,27 @@ class UserController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $encoder, SerializerInterface $serializer, EntityManagerInterface $em)
     {
 
-        try {
-            $jsonRecu = $request->getContent();
-            $user = $serializer->deserialize($jsonRecu, User::class, 'json');
-            $user->setPassword($encoder
-                ->encodePassword($user, $user->getPassword()))
-                ->setRoles(['ROLE_USER']);
+        if ($request->isMethod("POST")) {
+            $email = $request->get('email');
+            $password = $request->get('password');
+            $firstName = $request->get('firstName');
+            $lastName = $request->get('lastName');
+            $user = new User();
+            var_dump($email);
+            $user->setEmail($email)
+                ->setPassword($encoder->encodePassword($user, $password))
+
+                ->setRoles(['ROLE_USER'])
+                ->setFirstname($firstName)
+                ->setLastname($lastName);
+
             $em->persist($user);
             $em->flush();
-
-            return $this->json($user, 201, [], ['groups' => 'user:read']);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => 400,
-                'message' => $e->getMessage()
-            ], 400);
         }
+
+        return $this->render("home.html.twig");
+        // return new JsonResponse([[],JsonResponse::HTTP_NO_CONTENT]);
+
+
     }
 }

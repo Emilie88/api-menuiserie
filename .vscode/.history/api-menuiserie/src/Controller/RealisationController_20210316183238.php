@@ -45,7 +45,7 @@ class RealisationController extends AbstractController
 
             $jsonRecu = $request->getContent();
             $realisation = $serializer->deserialize($jsonRecu, Realisation::class, 'json');
-            $realisation->setUpdatedAt(new \DateTime());
+            $realisation->setUpdateddAt(new \DateTime());
             $em->persist($realisation);
             $em->flush();
 
@@ -56,5 +56,11 @@ class RealisationController extends AbstractController
                 'message' => $e->getMessage()
             ], 400);
         }
+        // return $this->render("realisation.html.twig");
+
+
+
+
+
     }
 }

@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
+use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\OpinionsRepository;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=OpinionsRepository::class)
+ * @ORM\Entity(repositoryClass=CommentRepository::class)
  */
-class Opinions
+class Comment
 {
     /**
      * @ORM\Id
@@ -19,53 +18,47 @@ class Opinions
     private $id;
 
     /**
-     * @ORM\Column(type="string")
-     * @Groups("opinions:read")
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $rating;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("opinions:read")
      */
     private $author;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("opinions:read")
      */
     private $title;
 
     /**
-     * @ORM\Column(type="text")
-     * @Groups("opinions:read")
+     * @ORM\Column(type="string", length=255)
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups("opinions:read")
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("opinions:read")
      */
-    private $opinion;
+    private $comment;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getRating(): ?int
+    public function getRating(): ?string
     {
         return $this->rating;
     }
 
-    public function setRating(int $rating): self
+    public function setRating(?string $rating): self
     {
         $this->rating = $rating;
 
@@ -120,14 +113,14 @@ class Opinions
         return $this;
     }
 
-    public function getOpinion(): ?User
+    public function getComment(): ?User
     {
-        return $this->opinion;
+        return $this->comment;
     }
 
-    public function setOpinion(?User $opinion): self
+    public function setComment(?User $comment): self
     {
-        $this->opinion = $opinion;
+        $this->comment = $comment;
 
         return $this;
     }

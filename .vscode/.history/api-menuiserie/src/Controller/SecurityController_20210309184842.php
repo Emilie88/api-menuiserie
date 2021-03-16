@@ -27,6 +27,13 @@ class SecurityController extends AbstractController
             'roles' => $user->getRoles(),
             'id' => $user->getId(),
         ]);
+        var_dump($user);
+
+            
+            
+            
+            
+        
     }
 
     /**
@@ -40,7 +47,7 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return new JsonResponse(['last_username' => $lastUsername, 'error' => $error]);
+    return new JsonResponse(['last_username' => $lastUsername, 'error' => $error]);
     }
 
     /**

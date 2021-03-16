@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Devis;
-use App\Repository\DevisRepository;
+use App\Entity\Realisation;
+use App\Repository\RealisationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,26 +12,31 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 
 
-class DevisController extends AbstractController
+class RealisationController extends AbstractController
 {
 
     /**
-     * @Route("/api/devis", name="api_devis_index",methods={"GET"})
+     * @Route("/api/realisation", name="api_realisation_index",methods={"GET"})
      */
-    public function index(DevisRepository $devisRepository, SerializerInterface $serializer)
+    public function index(RealisationRepository $realisationRepository, SerializerInterface $serializer)
     {
-        $devis = $devisRepository->findAll();
-        $json = $serializer->serialize($devis, 'json', ['groups' => 'devis:read']);
+        $realisation = $realisationRepository->findAll();
+        $json = $serializer->serialize($realisation, 'json', ['groups' => 'realisation:read']);
 
+        // $response = new Response($json,200,[
+        //     "Content-Type"=>"application/json"
+        // ]);
         $response = new JsonResponse($json, 200, [], true);
         return $response;
     }
 
     /**
-     * @Route("/api/add-devis", name="api_devis_add",methods={"POST","GET"})
+     * @Route("/api/add-realisation", name="api_realisation_add",methods={"POST","GET"})
+     *  @return JsonResponse
      */
     public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
     {
@@ -39,16 +44,23 @@ class DevisController extends AbstractController
 
 
             $jsonRecu = $request->getContent();
-            $devisOne = $serializer->deserialize($jsonRecu, Devis::class, 'json');
-            $em->persist($devisOne);
+            $realisation = $serializer->deserialize($jsonRecu, Realisation::class, 'json');
+
+            $em->persist($realisation);
             $em->flush();
 
-            return $this->json($devisOne, 201, [], ['groups' => 'devis:read']);
+            return $this->json($realisation, 201, [], ['groups' => 'realisation:read']);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => 400,
                 'message' => $e->getMessage()
             ], 400);
         }
+        // return $this->render("realisation.html.twig");
+
+
+
+
+
     }
 }

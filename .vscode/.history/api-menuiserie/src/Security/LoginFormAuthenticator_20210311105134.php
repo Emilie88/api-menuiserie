@@ -44,16 +44,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getCredentials(Request $request)
     {
+
         $credentials = [
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
+            'roles' => $request->request->get('roles'),
+            'firstName' => $request->request->get('firstName'),
+            'lastName' => $request->request->get('lastName'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
             $credentials['email']
         );
-
+        var_dump($credentials);
         return $credentials;
     }
 
@@ -81,7 +85,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        $user = $token->getUser();
+        $user = $this->entityManager->getRepository(Users::class)->findOneBy(['email']);
         var_dump($user);
         return $user;
         // if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {

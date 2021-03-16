@@ -56,7 +56,7 @@ class Realisation
 
     /**
      * @ORM\Column(type="datetime")
-    
+     *@Groups("realisation:read")
      * @var \DateTimeInterface|null
      */
     private $updatedAt;
@@ -72,34 +72,34 @@ class Realisation
      */
 
 
-    public function setImageFile(File $imageName = null)
-    {
-        $this->imageFile = $imageName;
+    // public function setImageFile(File $imageName = null)
+    // {
+    //     $this->imageFile = $imageName;
 
-        // VERY IMPORTANT:
-        // It is required that at least one field changes if you are using Doctrine,
-        // otherwise the event listeners won't be called and the file is lost
-        if ($imageName) {
-            // if 'updatedAt' is not defined in your entity, use another property
-            $this->updatedAt = new \DateTime('now');
-        }
-    }
+    // VERY IMPORTANT:
+    // It is required that at least one field changes if you are using Doctrine,
+    // otherwise the event listeners won't be called and the file is lost
+    // if ($imageName) {
+    // if 'updatedAt' is not defined in your entity, use another property
+    //         $this->updatedAt = new \DateTime('now');
+    //     }
+    // }
 
     public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
 
-    // public function setImageFile(?File $imageFile = null): void
-    // {
-    //     $this->imageFile = $imageFile;
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
 
-    // Only change the updated af if the file is really uploaded to avoid database updates.
-    // This is needed when the file should be set when loading the entity.
-    //     if ($this->imageFile instanceof UploadedFile) {
-    //         $this->updatedAt = new \DateTime('now');
-    //     }
-    // }
+        // Only change the updated af if the file is really uploaded to avoid database updates.
+        // This is needed when the file should be set when loading the entity.
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
 
     public function setImageName(?string $imageName): void
     {

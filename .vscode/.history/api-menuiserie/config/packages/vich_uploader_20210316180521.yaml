@@ -5,7 +5,7 @@ vich_uploader:
         realisation_image:
             uri_prefix: /images/realisation
             upload_destination: '%kernel.project_dir%/public/realisation'
-           
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             
             inject_on_load: false
             delete_on_update: true

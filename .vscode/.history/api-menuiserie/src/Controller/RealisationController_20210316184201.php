@@ -40,21 +40,23 @@ class RealisationController extends AbstractController
      */
     public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
     {
-        try {
+        // try {
 
 
-            $jsonRecu = $request->getContent();
-            $realisation = $serializer->deserialize($jsonRecu, Realisation::class, 'json');
-            $realisation->setUpdatedAt(new \DateTime());
-            $em->persist($realisation);
-            $em->flush();
+        $jsonRecu = $request->getContent();
+        $realisation = $serializer->deserialize($jsonRecu, Realisation::class, 'json');
+        $realisation->setUpdatedAt(new \DateTime());
+        $em->persist($realisation);
+        $em->flush();
 
-            return $this->json($realisation, 201, [], ['groups' => 'realisation:read']);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => 400,
-                'message' => $e->getMessage()
-            ], 400);
-        }
+        return $this->json($realisation, 201, [], ['groups' => 'realisation:read']);
+        // } catch (NotEncodableValueException $e) {
+        //     return $this->json([
+        //         'status' => 400,
+        //         'message' => $e->getMessage()
+        //     ], 400);
+        // }
+
+
     }
 }

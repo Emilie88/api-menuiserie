@@ -18,43 +18,53 @@ use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 
 class RealisationController extends AbstractController
 {
-
+   
     /**
      * @Route("/api/realisation", name="api_realisation_index",methods={"GET"})
      */
-    public function index(RealisationRepository $realisationRepository, SerializerInterface $serializer)
+    public function index(RealisationRepository $realisationRepository,SerializerInterface $serializer)
     {
         $realisation = $realisationRepository->findAll();
-        $json = $serializer->serialize($realisation, 'json', ['groups' => 'realisation:read']);
-
+        $json= $serializer->serialize($realisation,'json',['groups'=>'realisation:read']);
+        
         // $response = new Response($json,200,[
         //     "Content-Type"=>"application/json"
         // ]);
-        $response = new JsonResponse($json, 200, [], true);
+        $response= new JsonResponse($json,200,[],true);
         return $response;
+        
     }
 
     /**
      * @Route("/api/add-realisation", name="api_realisation_add",methods={"POST","GET"})
      *  @return JsonResponse
      */
-    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
+     public function add(Request $request,SerializerInterface $serializer,EntityManagerInterface $em)
     {
-        try {
-
-
-            $jsonRecu = $request->getContent();
-            $realisation = $serializer->deserialize($jsonRecu, Realisation::class, 'json');
-            $realisation->setUpdatedAt(new \DateTime());
-            $em->persist($realisation);
-            $em->flush();
-
-            return $this->json($realisation, 201, [], ['groups' => 'realisation:read']);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => 400,
-                'message' => $e->getMessage()
-            ], 400);
+        if($request->isMethod("POST")){
+           
+            $title=$request->request->get('title');
+            $description=$request->request->get('description');
+            $imageFile=$request->request->get('imageFile');
+            $realisation = new Realisation();
+            $realisation ->setTitle($title)
+                 ->setDescription($description)
+                ->setUpdatedAt(new \DateTime())
+                 ->setImageFile($imageFile);
+          
+            $this->getDoctrine()->getManager()->persist($realisation);
+            $this->getDoctrine()->getManager()->flush();
+            
         }
+    
+        return $this->render("realisation.html.twig");
+        
+        
+
+
+
     }
+    
+
+    
 }

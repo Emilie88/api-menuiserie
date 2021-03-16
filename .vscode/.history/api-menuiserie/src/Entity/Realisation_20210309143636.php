@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\RealisationRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Serializer\Annotation\Groups;
-
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -38,10 +37,10 @@ class Realisation
      */
     private $description;
 
-    /**
+     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
-     * @Vich\UploadableField(mapping="realisation_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="realisation", fileNameProperty="imageName")
      * 
      * @var File|null
      */
@@ -54,9 +53,11 @@ class Realisation
      */
     private $imageName;
 
+    
+
     /**
      * @ORM\Column(type="datetime")
-    
+     *@Groups("realisation:read")
      * @var \DateTimeInterface|null
      */
     private $updatedAt;
@@ -70,7 +71,7 @@ class Realisation
      *
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
      */
-
+  
 
     public function setImageFile(File $imageName = null)
     {
@@ -90,17 +91,6 @@ class Realisation
         return $this->imageFile;
     }
 
-    // public function setImageFile(?File $imageFile = null): void
-    // {
-    //     $this->imageFile = $imageFile;
-
-    // Only change the updated af if the file is really uploaded to avoid database updates.
-    // This is needed when the file should be set when loading the entity.
-    //     if ($this->imageFile instanceof UploadedFile) {
-    //         $this->updatedAt = new \DateTime('now');
-    //     }
-    // }
-
     public function setImageName(?string $imageName): void
     {
         $this->imageName = $imageName;
@@ -110,15 +100,15 @@ class Realisation
     {
         return $this->imageName;
     }
-
-
+    
+    
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
+   
 
     public function getTitle(): ?string
     {

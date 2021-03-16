@@ -46,8 +46,10 @@ class RealisationController extends AbstractController
             $jsonRecu = $request->getContent();
             $realisation = $serializer->deserialize($jsonRecu, Realisation::class, 'json');
             $realisation->setUpdatedAt(new \DateTime());
+            
             $em->persist($realisation);
             $em->flush();
+            var_dump($realisation)
 
             return $this->json($realisation, 201, [], ['groups' => 'realisation:read']);
         } catch (NotEncodableValueException $e) {
@@ -56,5 +58,11 @@ class RealisationController extends AbstractController
                 'message' => $e->getMessage()
             ], 400);
         }
+        // return $this->render("realisation.html.twig");
+
+
+
+
+
     }
 }

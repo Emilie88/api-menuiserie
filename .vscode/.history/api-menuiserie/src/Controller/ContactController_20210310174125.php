@@ -38,6 +38,8 @@ class ContactController extends AbstractController
     public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator)
     {
         try {
+
+
             $jsonRecu = $request->getContent();
             $contact = $serializer->deserialize($jsonRecu, Contact::class, 'json');
             $contact->setDate(new \DateTime());

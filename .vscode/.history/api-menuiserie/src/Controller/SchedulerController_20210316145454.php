@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Devis;
-use App\Repository\DevisRepository;
+use App\Entity\Scheduler;
+use App\Repository\SchedulerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,24 +14,23 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 
-
-class DevisController extends AbstractController
+class SchedulerController extends AbstractController
 {
 
     /**
-     * @Route("/api/devis", name="api_devis_index",methods={"GET"})
+     * @Route("/api/scheduler", name="api_scheduler_index",methods={"GET"})
      */
-    public function index(DevisRepository $devisRepository, SerializerInterface $serializer)
+    public function index(SchedulerRepository $schedulerRepository, SerializerInterface $serializer)
     {
-        $devis = $devisRepository->findAll();
-        $json = $serializer->serialize($devis, 'json', ['groups' => 'devis:read']);
+        $schedulers = $schedulerRepository->findAll();
+        $json = $serializer->serialize($schedulers, 'json', ['groups' => 'scheduler:read']);
 
         $response = new JsonResponse($json, 200, [], true);
         return $response;
     }
 
     /**
-     * @Route("/api/add-devis", name="api_devis_add",methods={"POST","GET"})
+     * @Route("/api/add-scheduler", name="api_scheduler_add",methods={"POST","GET"})
      */
     public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
     {
@@ -39,11 +38,13 @@ class DevisController extends AbstractController
 
 
             $jsonRecu = $request->getContent();
-            $devisOne = $serializer->deserialize($jsonRecu, Devis::class, 'json');
-            $em->persist($devisOne);
+            $scheduler = $serializer->deserialize($jsonRecu, Scheduler::class, 'json');
+            // $scheduler->setStart(new \DateTime());
+            // $scheduler->setEnd(new \DateTime());
+            $em->persist($scheduler);
             $em->flush();
 
-            return $this->json($devisOne, 201, [], ['groups' => 'devis:read']);
+            return $this->json($scheduler, 201, [], ['groups' => 'scheduler:read']);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => 400,
