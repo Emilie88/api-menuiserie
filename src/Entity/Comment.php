@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 use App\Repository\CommentRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -20,7 +21,7 @@ class Comment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="string", length=6, nullable=true)
      * @Groups("comment:read","comment:write")
      */
     private $rating;
@@ -49,12 +50,15 @@ class Comment
      */
     private $createdAt;
 
+
     /**
-     * @ORM\ManyToOne(targetEntity=User::class)
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity=User::class,  inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      *  @Groups("comment:read")
      */
-    private $comment;
+    private $userId;
 
     public function getId(): ?int
     {
@@ -121,15 +125,22 @@ class Comment
         return $this;
     }
 
-    public function getComment(): ?User
+    /**
+     * @param User|null $userId
+     * @return $this
+     */
+    public function setUserId(?User $userId): self
     {
-        return $this->comment;
-    }
-
-    public function setComment(?User $comment): self
-    {
-        $this->comment = $comment;
+        $this->userId = $userId;
 
         return $this;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getUserId(): ?User
+    {
+        return $this->userId;
     }
 }

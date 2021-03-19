@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 
@@ -29,7 +30,7 @@ class User implements UserInterface
      */
     private $email;
 
-   /**
+    /**
      * @ORM\Column(type="json")
      * @Groups("user:read")
      */
@@ -54,11 +55,21 @@ class User implements UserInterface
      */
     private $lastName;
 
-    
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="userId" , cascade={"remove", "persist"})
+     */
+
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Scheduler::class, mappedBy="idUser", orphanRemoval=true)
+     */
+    private $schedulers;
 
     public function __construct()
     {
         $this->commentList = new ArrayCollection();
+        $this->schedulers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,7 +99,7 @@ class User implements UserInterface
         return (string) $this->email;
     }
 
-   /**
+    /**
      * @see UserInterface
      */
     public function getRoles(): array
@@ -167,7 +178,51 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
 
+    public function addComments(Comment $comments): self
+    {
+        if (!$this->comments->contains($comments)) {
+            $this->comments[] = $comments;
+            $comments->setUserId($this);
+        }
 
-     
+        return $this;
+    }
+
+    /**
+     * @return Collection|Scheduler[]
+     */
+    public function getSchedulers(): Collection
+    {
+        return $this->schedulers;
+    }
+
+    public function addScheduler(Scheduler $scheduler): self
+    {
+        if (!$this->schedulers->contains($scheduler)) {
+            $this->schedulers[] = $scheduler;
+            $scheduler->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScheduler(Scheduler $scheduler): self
+    {
+        if ($this->schedulers->removeElement($scheduler)) {
+            // set the owning side to null (unless already changed)
+            if ($scheduler->getIdUser() === $this) {
+                $scheduler->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

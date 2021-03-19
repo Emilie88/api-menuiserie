@@ -55,4 +55,13 @@ class UserController extends AbstractController
             ], 400);
         }
     }
+
+    //     public function edituserPassword(User $user, $newPassword, $em)
+    // {
+    //     $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
+    //     $newPasswordEncoded = $encoder->encodePassword($newPasswordd, $user->getSalt());
+    //     $user->setPassword($newPasswordEncoded);
+    //     $em->persist($user);
+    //     $em->flush();
+    // }
 }

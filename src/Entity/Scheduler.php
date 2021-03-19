@@ -39,15 +39,17 @@ class Scheduler
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     */
-    private $idUser;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups("scheduler:read")
      */
     private $color;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="schedulers")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups("scheduler:read")
+     */
+    private $idUser;
 
     public function getId(): ?int
     {
@@ -94,17 +96,7 @@ class Scheduler
 
 
 
-    public function getIdUser(): ?User
-    {
-        return $this->idUser;
-    }
 
-    public function setIdUser(?User $idUser): self
-    {
-        $this->idUser = $idUser;
-
-        return $this;
-    }
 
     public function getColor(): ?string
     {
@@ -114,6 +106,18 @@ class Scheduler
     public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getIdUser(): ?User
+    {
+        return $this->idUser;
+    }
+
+    public function setIdUser(?User $idUser): self
+    {
+        $this->idUser = $idUser;
 
         return $this;
     }

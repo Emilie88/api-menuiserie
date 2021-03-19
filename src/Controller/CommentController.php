@@ -25,7 +25,8 @@ class CommentController extends AbstractController
     public function index(CommentRepository $commentRepository, Request $request)
     {
 
-        $this->getUser();
+
+
         $comment = $commentRepository->findAll();
         $response = $this->json($comment, 200, [], ['groups' => 'comment:read']);
 
@@ -33,7 +34,7 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("api/comment", name="api_opinion_create",methods={"POST","GET"})
+     * @Route("api/comment", name="api_opinion_create",methods={"POST"})
    
      */
     public function create(
@@ -44,15 +45,18 @@ class CommentController extends AbstractController
     ) {
 
 
+
+
+
         try {
             $jsonRecu = $request->getContent();
             $comment = $serializer->deserialize($jsonRecu, Comment::class, 'json');
             $comment->setCreatedAt(new \DateTime());
-            $comment->setComment($this->getUser());
-            $errors = $validator->validate($comment);
-            if (count($errors) > 0) {
-                return $this->json($errors, 400);
-            }
+            $comment->setUserId($this->getUser());
+            var_dump($this->getUser());
+
+
+
             $em->persist($comment);
             $em->flush();
 

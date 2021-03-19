@@ -14,6 +14,7 @@ class JWTCreatedListener
      */
     private $requestStack;
 
+
     /**
      * @param RequestStack $requestStack
      */
@@ -22,29 +23,31 @@ class JWTCreatedListener
         $this->requestStack = $requestStack;
     }
 
+
     /**
      * @param AuthenticationSuccessEvent $event
      */
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
-        $data = $event->getData();
+
+        $payload = $event->getData();
         $user = $event->getUser();
+
 
         if (!$user instanceof UserInterface) {
             return;
         }
 
         if ($user instanceof User) {
-            $data['data'] = array(
-                'id'        => $user->getId(),
-                'email'     => $user->getEmail(),
-                'roles'     => $user->getRoles(),
-                'firstName'     => $user->getFirstname(),
-                'lastName'     => $user->getLastName(),
-            );
+            // $payload['data'] = array(
+            $payload['id'] = $user->getId();
+            $payload['email']     = $user->getEmail();
+            $payload['roles']     = $user->getRoles();
+            $payload['firstName']     = $user->getFirstname();
+            $payload['lastName']     = $user->getLastName();
+            // );
         }
 
-        $event->setData($data);
+        $event->setData($payload);
     }
-
 }
