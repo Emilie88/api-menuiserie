@@ -5,14 +5,15 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
-use Symfony\Component\HttpFoundation\Response;
 
 
 class CommentController extends AbstractController
@@ -22,20 +23,21 @@ class CommentController extends AbstractController
      * @Route("api/comments", name="api_comments_index",methods={"GET"})
       
      */
-    public function index(CommentRepository $commentRepository, Request $request)
+    public function index(CommentRepository $commentRepository,  SerializerInterface $serializer)
     {
 
-
+        $this->getUser();
 
         $comment = $commentRepository->findAll();
-        $response = $this->json($comment, 200, [], ['groups' => 'comment:read']);
+        $json = $serializer->serialize($comment, 'json', ['groups' => 'comment:read']);
 
+        $response = new JsonResponse($json, 200, [], true);
         return $response;
     }
 
     /**
-     * @Route("api/comment", name="api_opinion_create",methods={"POST"})
-   
+     * @Route("api/add-comment", name="api_opinion_create",methods={"POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY") 
      */
     public function create(
         Request $request,
@@ -45,17 +47,11 @@ class CommentController extends AbstractController
     ) {
 
 
-
-
-
         try {
             $jsonRecu = $request->getContent();
             $comment = $serializer->deserialize($jsonRecu, Comment::class, 'json');
             $comment->setCreatedAt(new \DateTime());
-            $comment->setUserId($this->getUser());
-            var_dump($this->getUser());
-
-
+            $comment->setIdUser($this->getUser());
 
             $em->persist($comment);
             $em->flush();

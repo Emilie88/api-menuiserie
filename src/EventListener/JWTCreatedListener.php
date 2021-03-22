@@ -30,7 +30,7 @@ class JWTCreatedListener
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
 
-        $payload = $event->getData();
+        $data = $event->getData();
         $user = $event->getUser();
 
 
@@ -39,15 +39,15 @@ class JWTCreatedListener
         }
 
         if ($user instanceof User) {
-            // $payload['data'] = array(
-            $payload['id'] = $user->getId();
-            $payload['email']     = $user->getEmail();
-            $payload['roles']     = $user->getRoles();
-            $payload['firstName']     = $user->getFirstname();
-            $payload['lastName']     = $user->getLastName();
-            // );
+            $data['data'] = array(
+                'id'        => $user->getId(),
+                'email'     => $user->getEmail(),
+                'roles'     => $user->getRoles(),
+                'firstName'    => $user->getFirstname(),
+                'lastName'    => $user->getLastName()
+            );
         }
 
-        $event->setData($payload);
+        $event->setData($data);
     }
 }

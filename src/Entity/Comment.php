@@ -50,15 +50,14 @@ class Comment
      */
     private $createdAt;
 
-
     /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity=User::class,  inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
-     *  @Groups("comment:read")
      */
-    private $userId;
+    private $idUser;
+
+
+
 
     public function getId(): ?int
     {
@@ -125,22 +124,15 @@ class Comment
         return $this;
     }
 
-    /**
-     * @param User|null $userId
-     * @return $this
-     */
-    public function setUserId(?User $userId): self
+    public function getIdUser(): ?User
     {
-        $this->userId = $userId;
-
-        return $this;
+        return $this->idUser;
     }
 
-    /**
-     * @return User|null
-     */
-    public function getUserId(): ?User
+    public function setIdUser(?User $idUser): self
     {
-        return $this->userId;
+        $this->idUser = $idUser;
+
+        return $this;
     }
 }

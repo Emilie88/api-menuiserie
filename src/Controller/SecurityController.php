@@ -14,9 +14,9 @@ class SecurityController extends AbstractController
 {
 
     /**
-     * @Route(name="api_login_check", path="/api/login_check")
-    
-    
+     * @Route(name="api_login", path="/api/login_check")
+     * @return JsonResponse
+
      */
     public function api_login_check(Request $request)
     {

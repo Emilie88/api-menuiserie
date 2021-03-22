@@ -55,21 +55,23 @@ class User implements UserInterface
      */
     private $lastName;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="userId" , cascade={"remove", "persist"})
-     */
 
-    private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity=Scheduler::class, mappedBy="idUser", orphanRemoval=true)
      */
     private $schedulers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="idUser")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->commentList = new ArrayCollection();
         $this->schedulers = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -178,23 +180,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
 
-    public function addComments(Comment $comments): self
-    {
-        if (!$this->comments->contains($comments)) {
-            $this->comments[] = $comments;
-            $comments->setUserId($this);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Scheduler[]
@@ -220,6 +206,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($scheduler->getIdUser() === $this) {
                 $scheduler->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getIdUser() === $this) {
+                $comment->setIdUser(null);
             }
         }
 

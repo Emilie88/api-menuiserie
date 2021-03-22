@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -19,13 +20,13 @@ class SchedulerController extends AbstractController
 {
 
     /**
-     * @Route("/api/scheduler/{idUser}", name="api_scheduler_index",methods={"GET"})
+     * @Route("/api/scheduler", name="api_scheduler_index",methods={"GET"})
+
      */
     public function index(SchedulerRepository $schedulerRepository, SerializerInterface $serializer)
     {
 
         $this->getUser();
-        // var_dump($this->getUser());
 
         $schedulers = $schedulerRepository->findAll();
 
@@ -36,7 +37,8 @@ class SchedulerController extends AbstractController
     }
 
     /**
-     * @Route("/api/add-scheduler/{idUser}", name="api_scheduler_add",methods={"POST"})
+     * @Route("/api/add-scheduler", name="api_scheduler_add",methods={"POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY") 
      */
     public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
     {
