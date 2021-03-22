@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\User;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +21,7 @@ class CommentController extends AbstractController
 {
 
     /**
-     * @Route("api/comments", name="api_comments_index",methods={"GET"})
-      
+     * @Route("api/comments", name="api_comments_index",methods={"GET"}) 
      */
     public function index(CommentRepository $commentRepository,  SerializerInterface $serializer)
     {
@@ -36,14 +36,30 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("api/add-comment", name="api_opinion_create",methods={"POST"})
+     * @Route("api/comment", name="api_comment_comment",methods={"GET"}) 
+     */
+
+    public function comment(CommentRepository $commentRepository,  SerializerInterface $serializer)
+    {
+
+        $idUser = $this->getUser();
+
+        $comment = $commentRepository->findByIdUser($idUser);
+        $json = $serializer->serialize($comment, 'json', ['groups' => 'comment:read']);
+
+        $response = new JsonResponse($json, 200, [], true);
+        return $response;
+    }
+
+    /**
+     * @Route("api/add-comment", name="api_comment_create",methods={"POST"})
      * @IsGranted("IS_AUTHENTICATED_FULLY") 
      */
     public function create(
         Request $request,
         SerializerInterface $serializer,
-        EntityManagerInterface $em,
-        ValidatorInterface $validator
+        EntityManagerInterface $em
+
     ) {
 
 
