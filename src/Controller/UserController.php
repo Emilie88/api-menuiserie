@@ -46,6 +46,8 @@ class UserController extends AbstractController
                 ->setRoles(['ROLE_USER']);
             $em->persist($user);
             $em->flush();
+            // $this->mailer->sendEmail($user->getEmail());
+            // $this->addFlash("success", "Inscription réussie !");
 
             return $this->json($user, 201, [], ['groups' => 'user:read']);
         } catch (NotEncodableValueException $e) {

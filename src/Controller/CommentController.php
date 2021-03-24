@@ -80,4 +80,24 @@ class CommentController extends AbstractController
             ], 400);
         }
     }
+
+    /**
+     * @Route("/api/remove-comment/{id}", name="api_comment_remove",methods={"DELETE","GET"})
+     *  @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function remove(Comment $comment)
+    {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($comment);
+            $em->flush();
+
+            return   $this->json(null, 204);
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => 400,
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }
 }

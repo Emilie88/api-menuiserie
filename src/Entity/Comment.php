@@ -21,25 +21,25 @@ class Comment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=6, nullable=true)
+     * @ORM\Column(type="string", length=1,nullable=false)
      * @Groups("comment:read","comment:write")
      */
     private $rating;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      *  @Groups("comment:read","comment:write")
      */
     private $author;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      *  @Groups("comment:read","comment:write")
      */
     private $title;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=false)
      *  @Groups("comment:read","comment:write")
      */
     private $content;

@@ -20,7 +20,7 @@ class Scheduler
     private $id;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string")
      * @Groups("scheduler:read")
      */
     private $name;
@@ -39,7 +39,7 @@ class Scheduler
 
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      * @Groups("scheduler:read")
      */
     private $color;
