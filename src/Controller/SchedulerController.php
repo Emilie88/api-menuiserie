@@ -85,9 +85,8 @@ class SchedulerController extends AbstractController
     /**
      * @Route("/api/remove-scheduler/{id}", name="api_scheduler_remove",methods={"DELETE","GET"})
      *  @IsGranted("IS_AUTHENTICATED_FULLY")
-   
      */
-    public function remove(MailerInterface $mailer, Scheduler $scheduler, User $user)
+    public function remove(Scheduler $scheduler)
     {
         try {
             $em = $this->getDoctrine()->getManager();

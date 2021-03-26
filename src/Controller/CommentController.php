@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 class CommentController extends AbstractController
@@ -52,7 +53,7 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("api/add-comment", name="api_comment_create",methods={"POST"})
+     * @Route("api/add-comment", name="api_comment_create",methods={"POST","GET"})
      * @IsGranted("IS_AUTHENTICATED_FULLY") 
      */
     public function create(

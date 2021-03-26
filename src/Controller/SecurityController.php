@@ -18,16 +18,16 @@ class SecurityController extends AbstractController
      * @return JsonResponse
 
      */
-    public function api_login_check(Request $request)
-    {
-        $user = $this->getUser();
+    // public function api_login_check(Request $request)
+    // {
+    //     $user = $this->getUser();
 
-        return $this->json([
-            'username' => $user->getUsername(),
-            'roles' => $user->getRoles(),
-            'id' => $user->getId(),
-        ]);
-    }
+    //     return $this->json([
+    //         'username' => $user->getUsername(),
+    //         'roles' => $user->getRoles(),
+    //         'id' => $user->getId(),
+    //     ]);
+    // }
 
     /**
      * @Route("/login", name="app_login")

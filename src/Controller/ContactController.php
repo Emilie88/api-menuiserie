@@ -35,7 +35,7 @@ class ContactController extends AbstractController
     /**
      * @Route("/api/add-contact", name="api_contact_add",methods={"POST","GET"})
      */
-    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator)
+    public function addMessage(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator)
     {
         try {
             $jsonRecu = $request->getContent();
@@ -48,7 +48,7 @@ class ContactController extends AbstractController
             $em->persist($contact);
             $em->flush();
 
-            return $this->json($contact, 201, [], ['groups' => 'contact:read']);
+            return $this->json($contact, 200, [], ['groups' => 'contact:read']);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => 400,
