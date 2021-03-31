@@ -22,19 +22,16 @@ class SchedulerRepository extends ServiceEntityRepository
     // /**
     //  * @return Scheduler[] Returns an array of Scheduler objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findSchedulerById($value)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
+            ->andWhere('s.id = :val')
             ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Scheduler

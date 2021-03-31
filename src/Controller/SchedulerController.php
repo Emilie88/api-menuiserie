@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
@@ -114,23 +115,22 @@ class SchedulerController extends AbstractController
     /**
      * @Route("/api/update-scheduler/{id}", name="api_scheduler_update",methods={"PUT"})
      */
-    // public function update(Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
-    // {
+    public function update(Scheduler $scheduler, Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
+    {
+        try {
+            $jsonRecu = $request->getContent();
+            $serializer->deserialize($jsonRecu, Scheduler::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $scheduler]);
+            $em->flush();
 
-
-    //     try {
-
-    //         $jsonRecu = $request->getContent();
-    //         $scheduler = $serializer->deserialize($jsonRecu, Scheduler::class, 'json');
-    //         $em->persist($scheduler);
-    //         $em->flush();
-
-    //         return $this->json($scheduler, 201, [], ['groups' => 'scheduler:read']);
-    //     } catch (NotEncodableValueException $e) {
-    //         return $this->json([
-    //             'status' => 400,
-    //             'message' => $e->getMessage()
-    //         ], 400);
-    //     }
-    // }
+            return $this->json($scheduler, 201, [], ['groups' => 'scheduler:read']);
+        } catch (NotEncodableValueException $e) {
+            return $this->json(
+                [
+                    'status'  => 400,
+                    'message' => $e->getMessage(),
+                ],
+                400
+            );
+        }
+    }
 }

@@ -20,6 +20,14 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        # app/config/security.yml
+
+
+        api_doc:
+            pattern: ^/api/doc
+            security: false
+
+        # …    
 
         login:
             pattern:  ^/api/login
