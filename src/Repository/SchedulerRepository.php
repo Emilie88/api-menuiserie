@@ -32,6 +32,22 @@ class SchedulerRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // /**
+    //  * @return Comment[] Returns an array of Scheduler objects
+    //  */
+
+    public function findByIdUs($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.idUs = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
 
     /*
     public function findOneBySomeField($value): ?Scheduler

@@ -39,6 +39,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("api/comment", name="api_comment_comment",methods={"GET"}) 
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
 
     public function comment(CommentRepository $commentRepository,  SerializerInterface $serializer)
@@ -84,7 +85,7 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/api/remove-comment/{id}", name="api_comment_remove",methods={"DELETE","GET"})
+     * @Route("/api/remove-comment/{id}", name="api_comment_remove",methods={"DELETE"})
      *  @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function remove(Comment $comment)
@@ -112,6 +113,7 @@ class CommentController extends AbstractController
         try {
             $jsonRecu = $request->getContent();
             $serializer->deserialize($jsonRecu, Comment::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $comment]);
+
             $em->flush();
 
             return $this->json($comment, 201, [], ['groups' => 'comment:read']);

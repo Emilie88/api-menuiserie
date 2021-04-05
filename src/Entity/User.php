@@ -58,7 +58,7 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\OneToMany(targetEntity=Scheduler::class, mappedBy="idUser", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Scheduler::class, mappedBy="idUs")
      */
     private $schedulers;
 
@@ -194,7 +194,7 @@ class User implements UserInterface
     {
         if (!$this->schedulers->contains($scheduler)) {
             $this->schedulers[] = $scheduler;
-            $scheduler->setIdUser($this);
+            $scheduler->setIdUs($this);
         }
 
         return $this;
@@ -204,8 +204,8 @@ class User implements UserInterface
     {
         if ($this->schedulers->removeElement($scheduler)) {
             // set the owning side to null (unless already changed)
-            if ($scheduler->getIdUser() === $this) {
-                $scheduler->setIdUser(null);
+            if ($scheduler->getIdUs() === $this) {
+                $scheduler->setIdUs(null);
             }
         }
 

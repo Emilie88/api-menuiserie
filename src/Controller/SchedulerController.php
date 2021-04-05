@@ -49,9 +49,9 @@ class SchedulerController extends AbstractController
     public function scheduler(SchedulerRepository $schedulerRepository,  SerializerInterface $serializer)
     {
 
-        $idUser = $this->getUser();
+        $idUs = $this->getUser();
 
-        $scheduler = $schedulerRepository->findByIdUser($idUser);
+        $scheduler = $schedulerRepository->findByIdUs($idUs);
         $json = $serializer->serialize($scheduler, 'json', ['groups' => 'scheduler:read']);
 
         $response = new JsonResponse($json, 200, [], true);
@@ -70,7 +70,7 @@ class SchedulerController extends AbstractController
 
             $jsonRecu = $request->getContent();
             $scheduler = $serializer->deserialize($jsonRecu, Scheduler::class, 'json');
-            $scheduler->setIdUser($this->getUser());
+            $scheduler->setIdUs($this->getUser());
             $em->persist($scheduler);
             $em->flush();
 
@@ -114,13 +114,16 @@ class SchedulerController extends AbstractController
 
     /**
      * @Route("/api/update-scheduler/{id}", name="api_scheduler_update",methods={"PUT"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function update(Scheduler $scheduler, Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
     {
         try {
             $jsonRecu = $request->getContent();
             $serializer->deserialize($jsonRecu, Scheduler::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $scheduler]);
+
             $em->flush();
+
 
             return $this->json($scheduler, 201, [], ['groups' => 'scheduler:read']);
         } catch (NotEncodableValueException $e) {

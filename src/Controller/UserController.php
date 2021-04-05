@@ -32,6 +32,23 @@ class UserController extends AbstractController
         $response = new JsonResponse($json, 200, [], true);
         return $response;
     }
+
+    /**
+     * @Route("/api/user", name="api_user",methods={"GET"})
+     *  @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+
+    public function getOneUser(UserRepository $userRepository, SerializerInterface $serializer)
+    {
+        $id = $this->getUser();
+
+        $user = $userRepository->findOneById($id);
+        $json = $serializer->serialize($user, 'json', ['groups' => 'user:read']);
+
+        $response = new JsonResponse($json, 200, [], true);
+        return $response;
+    }
+
     /**
      * @Route("/api/register-user", name="api_user_register",methods={"POST","GET"})
      * @return JsonResponse

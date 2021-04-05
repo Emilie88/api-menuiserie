@@ -6,11 +6,12 @@
 
 <body>
     {% block body %}
-    <form action="/api/login" method="post">
+    <form action="/api/login-check" method="post">
         <input type="email" name="email" placeholder="Mail" />
         <input type="password" name="password" placeholder="Password" />
         <button type="submit">Submit</button>
     </form>
+    <a href="{{route('app_forgot_password_request')}}">Forgot Password</a>
     {% endblock %}
     {% block javascripts %}{% endblock %}
 </body>
