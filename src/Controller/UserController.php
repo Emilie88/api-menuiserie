@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -94,12 +95,53 @@ class UserController extends AbstractController
         }
     }
 
-    //     public function edituserPassword(User $user, $newPassword, $em)
-    // {
-    //     $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-    //     $newPasswordEncoded = $encoder->encodePassword($newPasswordd, $user->getSalt());
-    //     $user->setPassword($newPasswordEncoded);
-    //     $em->persist($user);
-    //     $em->flush();
-    // }
+    /**
+     * @Route("/api/update-user/{id}", name="api_user_update",methods={"PUT"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function update(User $user, Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
+    {
+        try {
+            $jsonRecu = $request->getContent();
+            $serializer->deserialize($jsonRecu, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
+
+            $em->flush();
+
+
+            return $this->json($user, 201, [], ['groups' => 'user:read']);
+        } catch (NotEncodableValueException $e) {
+            return $this->json(
+                [
+                    'status'  => 400,
+                    'message' => $e->getMessage(),
+                ],
+                400
+            );
+        }
+    }
+
+
+    /**
+     * @Route("/api/update-password/{id}", name="api_password_update",methods={"POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function updatePassword(User $user, Request $request, UserPasswordEncoderInterface $encoder, SerializerInterface $serializer, EntityManagerInterface $em)
+    {
+        try {
+            $jsonRecu = $request->getContent();
+            $serializer->deserialize($jsonRecu, User::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $user]);
+            $user->setPassword($encoder
+                ->encodePassword($user, $user->getPassword()));
+            $em->flush();
+            return $this->json($user, 201, [], ['groups' => 'user:read']);
+        } catch (NotEncodableValueException $e) {
+            return $this->json(
+                [
+                    'status'  => 400,
+                    'message' => $e->getMessage(),
+                ],
+                400
+            );
+        }
+    }
 }
