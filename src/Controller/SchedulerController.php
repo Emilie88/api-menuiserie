@@ -26,7 +26,7 @@ class SchedulerController extends AbstractController
 
     /**
      * @Route("/api/schedulers", name="api_schedulers_index",methods={"GET"})
-
+     *  @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function index(SchedulerRepository $schedulerRepository, SerializerInterface $serializer)
     {
@@ -87,21 +87,20 @@ class SchedulerController extends AbstractController
      * @Route("/api/remove-scheduler/{id}", name="api_scheduler_remove",methods={"DELETE","GET"})
      *  @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function remove(Scheduler $scheduler)
+    public function remove(Scheduler $scheduler, MailerInterface $mailer)
     {
+        $idUser = $scheduler->getIdUs();
+        $emailUser = $idUser->getEmail();
+        $email = (new Email())
+            ->from('akysor@gmail.com')
+            ->to($emailUser)
+            ->html('<p>Your appointment has canceled!</p>');
+        
         try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($scheduler);
             $em->flush();
-
-
-            // $email = (new Email())
-            //     ->from('akysor@gmail.com')
-            //     ->to('eboghiu88@gmail.com')
-            //     // ->to($user->getEmail())
-            //     ->subject("Votre rendez-vous a été annulé par l'admin");
-            // dd($email);
-            // $mailer->send($email);
+            $mailer->send($email);
 
             return $this->json(null, 204);
         } catch (NotEncodableValueException $e) {

@@ -19,7 +19,7 @@ use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 /**
- * @Route("/api/reset-password")
+ * @Route("/api/reset-password",methods={"POST","GET"})
  */
 class ResetPasswordController extends AbstractController
 {
@@ -35,7 +35,7 @@ class ResetPasswordController extends AbstractController
     /**
      * Display & process form to request a password reset.
      *
-     * @Route("", name="app_forgot_password_request",methods={"POST","GET"})
+     * @Route("", name="app_forgot_password_request")
      */
     public function request(Request $request, MailerInterface $mailer): Response
     {

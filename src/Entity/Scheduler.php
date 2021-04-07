@@ -47,9 +47,15 @@ class Scheduler
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="schedulers", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
-    
+     *  @Groups("scheduler:read")
      */
     private $idUs;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     *  @Groups("scheduler:read")
+     */
+    private $details;
 
     public function getId(): ?int
     {
@@ -112,6 +118,18 @@ class Scheduler
     public function setIdUs(?User $idUs): self
     {
         $this->idUs = $idUs;
+
+        return $this;
+    }
+
+    public function getDetails(): ?string
+    {
+        return $this->details;
+    }
+
+    public function setDetails(?string $details): self
+    {
+        $this->details = $details;
 
         return $this;
     }
