@@ -1,4 +1,4 @@
-.vscode
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -13,3 +13,4 @@
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/
 ###< lexik/jwt-authentication-bundle ###
+.vscode
