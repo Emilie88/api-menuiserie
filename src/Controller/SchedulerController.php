@@ -89,13 +89,12 @@ class SchedulerController extends AbstractController
      */
     public function remove(Scheduler $scheduler, MailerInterface $mailer)
     {
-        $idUser = $scheduler->getIdUs();
-        $emailUser = $idUser->getEmail();
+        $emailUser = $scheduler->getEmail();
         $email = (new Email())
             ->from('akysor@gmail.com')
             ->to($emailUser)
-            ->html('<p>Your appointment has canceled!</p>');
-        
+            ->html('<p>Your appointment has been canceled!</p>');
+
         try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($scheduler);
@@ -115,13 +114,21 @@ class SchedulerController extends AbstractController
      * @Route("/api/update-scheduler/{id}", name="api_scheduler_update",methods={"PUT"})
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function update(Scheduler $scheduler, Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
+    public function update(Scheduler $scheduler, Request $request, SerializerInterface $serializer, EntityManagerInterface $em, MailerInterface $mailer)
     {
+        $emailUser = $scheduler->getEmail();
+        $email = (new Email())
+            ->from('akysor@gmail.com')
+            ->to($emailUser)
+            ->html('<p>Your appointment has been updated!</p>');
+
         try {
             $jsonRecu = $request->getContent();
             $serializer->deserialize($jsonRecu, Scheduler::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $scheduler]);
 
             $em->flush();
+            $mailer->send($email);
+
 
 
             return $this->json($scheduler, 201, [], ['groups' => 'scheduler:read']);
