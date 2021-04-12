@@ -27,9 +27,6 @@ class RealisationController extends AbstractController
         $realisation = $realisationRepository->findAll();
         $json = $serializer->serialize($realisation, 'json', ['groups' => 'realisation:read']);
 
-        // $response = new Response($json,200,[
-        //     "Content-Type"=>"application/json"
-        // ]);
         $response = new JsonResponse($json, 200, [], true);
         return $response;
     }
