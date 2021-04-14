@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\PhotosRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PhotosRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PhotosRepository::class)
@@ -14,18 +15,24 @@ class Photos
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *  @Groups("photos:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("photos:read")
      */
     private $nameImage;
 
     /**
-     * @ORM\OneToOne(targetEntity=Realisation::class, mappedBy="image", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Realisations::class, inversedBy="images")
+     * @ORM\JoinColumn(nullable=false)
+     *  @Groups("photos:read","photos:write","realisations:read","realisations:write")
      */
-    private $realisation;
+    private $realisations;
+
+
 
     public function getId(): ?int
     {
@@ -44,19 +51,14 @@ class Photos
         return $this;
     }
 
-    public function getRealisation(): ?Realisation
+    public function getRealisations(): ?Realisations
     {
-        return $this->realisation;
+        return $this->realisations;
     }
 
-    public function setRealisation(Realisation $realisation): self
+    public function setRealisations(?Realisations $realisations): self
     {
-        // set the owning side of the relation if necessary
-        if ($realisation->getImage() !== $this) {
-            $realisation->setImage($this);
-        }
-
-        $this->realisation = $realisation;
+        $this->realisations = $realisations;
 
         return $this;
     }

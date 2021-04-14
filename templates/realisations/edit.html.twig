@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit realisations{% endblock %}
+
+{% block body %}
+<h1>Edit realisations</h1>
+
+{{ include('realisations/_form.html.twig', {'button_label': 'Update'}) }}
+
+<a href="{{ path('api_realisations_index') }}">back to list</a>
+
+{{ include('realisations/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('js/images.js') }}"></script>
+{% endblock %}

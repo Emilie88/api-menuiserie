@@ -9,7 +9,7 @@
     <form action="/api/add-realisation" method="post">
         <input type="text" name="title" placeholder="Title" />
         <input type="text" name="description" placeholder="Description" />
-        <input type="file" name="imageFile" placeholder="Image file" />
+        <input type="file" name="images" multiple="multiple" placeholder="Image files" />
         <button type="submit">Submit</button>
     </form>
     {% endblock %}

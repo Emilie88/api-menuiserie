@@ -28,9 +28,9 @@ class CommentController extends AbstractController
     public function index(CommentRepository $commentRepository,  SerializerInterface $serializer)
     {
 
-        $this->getUser();
 
         $comment = $commentRepository->findAll();
+
         $json = $serializer->serialize($comment, 'json', ['groups' => 'comment:read']);
 
         $response = new JsonResponse($json, 200, [], true);
