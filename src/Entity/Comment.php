@@ -23,7 +23,7 @@ class Comment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=1)
+     * @ORM\Column(type="integer", length=1)
      * @Assert\NotBlank(message="Ce champ ne peut pas être vide.")
      * @Groups("comment:read","comment:write")
      */
