@@ -35,12 +35,13 @@ class Realisations
 
     /**
      * @ORM\Column(type="datetime")
+     *  @Groups("realisations:read")
      */
     private $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Photos::class, mappedBy="realisations",orphanRemoval=true, cascade={"persist"})
-     * @Groups("realisations:read","photos:read")
+     * @Groups("realisations:read")
      */
     private $images;
 

@@ -15,20 +15,20 @@ class Photos
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     *  @Groups("realisations:read","photos:read")
+     *  @Groups("photos:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("realisations:read","photos:read")
+     * @Groups("photos:read","realisations:read")
      */
     private $nameImage;
 
     /**
      * @ORM\ManyToOne(targetEntity=Realisations::class, inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
-     *  @Groups("realisations:read","photos:read")
+     *  @Groups("photos:read")
      */
     private $realisations;
 
